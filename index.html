@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sai Balaji Constructions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            background: #000; /* Ensure no white background */
+        }
+
+        /* Navigation */
+        nav {
+            background: #1a3c5e;
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px; /* Space between logo and company name */
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .company-name {
+            font-size: 1.2rem;
+            background: #f4b400;
+            color: #1a3c5e;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f4b400;
+        }
+
+        /* Hero Section with Slideshow */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background: #000; /* Fallback background */
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 0;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block; /* Prevent white gaps */
+            background: #000; /* Fallback for image load failure */
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+            z-index: 1;
+        }
+
+        .slide-caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .slide-caption h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .slide-caption p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            background: #f4b400;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #d89b00;
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active {
+            background-color: #f4b400;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #1a3c5e;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1a3c5e;
+        }
+
+        /* About Section */
+        .about {
+            padding: 4rem 2rem;
+            background: #fff;
+        }
+
+        .about-content {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: #1a3c5e;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            position: relative;
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin: 1rem 0 0.5rem;
+            color: #1a3c5e;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1a3c5e;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f4b400;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:invalid:focus,
+        .form-group textarea:invalid:focus {
+            border-color: #e74c3c;
+        }
+
+        .submit-button {
+            background: #1a3c5e;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        .submit-button:hover {
+            background: #132c47;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            color: #1a3c5e;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .contact-info a {
+            color: #f4b400;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #d89b00;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a3c5e;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .footer-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-content a {
+            color: #f4b400;
+            text-decoration: none;
+        }
+
+        .footer-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .slide-caption h1 {
+                font-size: 1.8rem;
+            }
+
+            .slide-caption p {
+                font-size: 1rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .about-text {
+                padding: 1.5rem;
+            }
+
+            .contact-container {
+                flex-direction: column;
+            }
+
+            .logo {
+                flex-direction: column; /* Stack logo and name vertically on mobile */
+                align-items: flex-start;
+            }
+
+            .company-name {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <!-- 
+                    For local testing: Place 'vengamamba1.jpg' in the same directory as this HTML file and use src="vengamamba1.jpg".
+                    For production: Upload 'vengamamba1.jpg' to a hosting service (e.g., GitHub, Firebase, Imgur) and replace the src with the public URL.
+                    Fallback: If the image fails to load, the placeholder will display.
+                -->
+                <img src=content://com.android.providers.media.documents/document/image%3A1000676874 alt="Sai Balaji Constructions Logo" onerror="this.src='https://via.placeholder.com/150x50?text=Sai+Balaji+Logo'">
+                <span class="company-name">Sai Balaji Constructions</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Slideshow -->
+    <section id="home" class="hero">
+        <div class="slideshow-container">
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pipeline Project">
+                <div class="slide-caption">
+                    <h1>Expert Pipeline Construction</h1>
+                    <p>Over 50+ pipeline projects completed, delivering water, gas, and oil transport solutions across India.</p>
+                    <a href="#contact" class="cta-button">Get a Quote</a>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Infrastructure Development">
+                <div class="slide-caption">
+                    <h1>Infrastructure Excellence</h1>
+                    <p>Completed large-scale infrastructure projects with a focus on sustainability and quality.</p>
+                    <a href="#contact" class="cta-button">Get a Quote</a>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Innovative Technology">
+                <div class="slide-caption">
+                    <h1>Innovative Construction Tech</h1>
+                    <p>Utilizing cutting-edge technology to enhance project efficiency and durability.</p>
+                    <a href="#contact" class="cta-button">Get a Quote</a>
+                </div>
+            </div>
+        </div>
+        <div class="dots">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Pipeline Construction">
+                    <h3>Pipeline Construction</h3>
+                    <p>Specialized in constructing durable pipelines for water, gas, and oil transport.</p>
+                </div>
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af5929?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Canal Work">
+                    <h3>Canal Work</h3>
+                    <p>Expertise in designing and building irrigation and drainage canals.</p>
+                </div>
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Infrastructure Development">
+                    <h3>Infrastructure Development</h3>
+                    <p>Comprehensive solutions for large-scale infrastructure projects.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Sai Balaji Constructions</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Our Legacy</h3>
+                    <p><strong>Sai Balaji Constructions</strong>, founded in 2000, is a cornerstone of the construction industry in Davanagere, Karnataka. With over 24 years of expertise, we specialize in pipeline and canal construction, delivering innovative, sustainable, and high-quality infrastructure solutions across India. Our projects have transformed communities by providing critical infrastructure for water supply, agriculture, and industrial development.</p>
+                    
+                    <h3>Our Vision</h3>
+                    <p>We aim to lead the construction industry by creating infrastructure that empowers communities and fosters sustainable growth. Our vision is to build pipelines and canals that are not only functional but also environmentally responsible, ensuring a better future for generations to come.</p>
+                    
+                    <h3>Our Values</h3>
+                    <p>At Sai Balaji Constructions, we are guided by integrity, excellence, and innovation. We maintain transparency with our clients, adhere to the highest safety standards, and leverage advanced technology to deliver projects that exceed expectations. Our commitment to quality has earned us trust and respect in the industry.</p>
+                    
+                    <h3>Our Team</h3>
+                    <p>Our success is driven by a dedicated team of over 100 professionals, including civil engineers, project managers, and skilled laborers. With a focus on continuous training and development, our team stays at the forefront of construction techniques, ensuring precision and efficiency in every project.</p>
+                    
+                    <h3>Certifications and Recognitions</h3>
+                    <p>We are proud to be ISO 9001:2015 certified for quality management and ISO 14001:2015 certified for environmental management. Our projects have received accolades from state and central government bodies for engineering excellence and timely completion. We are also members of the Indian Construction Association, reflecting our commitment to industry standards.</p>
+                    
+                    <h3>Community Involvement</h3>
+                    <p>Beyond construction, we are deeply committed to giving back to the community. We support local education initiatives, provide vocational training for underprivileged youth, and participate in environmental conservation programs. Our efforts have positively impacted over 1,000 families in Davanagere and surrounding areas.</p>
+                    
+                    <h3>Our Reach</h3>
+                    <p>Based at #A-19, 1st Main, 3rd Cross, Vidhya Nagar, Davanagere-577 005, we have executed projects in Karnataka, Andhra Pradesh, Telangana, and Maharashtra. With a portfolio of over 80 major projects, including 50+ pipelines and 30+ canal systems, we continue to expand our footprint while maintaining our core values.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="About Us">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Our Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Water Pipeline Project">
+                    <h3>Water Pipeline Project</h3>
+                    <p>Completed a 50-km water pipeline for municipal supply.</p>
+                </div>
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af5929?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Irrigation Canal">
+                    <h3>Irrigation Canal</h3>
+                    <p>Designed and built a 30-km canal for agricultural use.</p>
+                </div>
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Gas Pipeline Installation">
+                    <h3>Gas Pipeline Installation</h3>
+                    <p>Installed a 20-km gas pipeline for industrial use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-container">
+                <
